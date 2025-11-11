@@ -169,14 +169,14 @@ client = AgentClient()
 @client.tree.command(name="find-collabs", description="Find collabs user is mentioned in.")
 @app_commands.describe(
     categories="Comma-separated list of category names or IDs to limit search to.",
-    days="Number of days in the past to search (default 7).",
+    days="Number of days in the past to search (default 300).",
     per_channel_limit="Max messages to search per channel (default 200).",
     include_threads="Whether to include active threads in the search (default False).",
 )
 async def find_collabs(
     interaction: discord.Interaction,
     categories: str = "",
-    days: int = 7,
+    days: int = 300,
     per_channel_limit: int = 200,
     include_threads: bool = False,
 ):
