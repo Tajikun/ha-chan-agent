@@ -280,39 +280,6 @@ async def find_collabs(
         await interaction.followup.send(embed=embed, ephemeral=True)
 
 
-@client.tree.command(name="ha-chat", description="Ask ha-chan a question.")
-@app_commands.describe(message="What would you like to ask ha-chan?")
-async def ask(interaction: discord.Interaction, message: str):
-    await interaction.response.defer(thinking=True)
-
-    def run_agent_call():
-        result = agent.invoke({
-            "messages": [{"role": "user", "content": message}]
-        })
-        structured = result.get("structured_response")
-        try:
-            if isinstance(structured, BaseModel):
-                return structured.model_dump()
-            if isinstance(structured, dict):
-                return structured
-            return str(structured)
-            
-        except Exception:
-            return str(structured)
-        
-
-    output = await asyncio.to_thread(run_agent_call)
-
-    embed = discord.Embed(title="Ha-chan's Response")
-    if isinstance(output, dict):
-        for k, v in output.items():
-            embed.add_field(name=k.capitalize(), value=str(v), inline=False)
-    else:
-        embed.description = str(output)
-
-    await interaction.followup.send(embed=embed)
-
-
 # Running
 if __name__ == "__main__":
     if not TOKEN:
