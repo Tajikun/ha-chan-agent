@@ -12,6 +12,12 @@ from datetime import datetime, timedelta, timezone
 from typing import List, Tuple
 
 
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+if not OPENAI_API_KEY:
+    raise RuntimeError(
+        "OPENAI_API_KEY not set."
+    )
+
 class ContactInfo(BaseModel):
     name: str
     email: str
